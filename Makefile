@@ -38,7 +38,7 @@ test:
 test-single: RUST_TEST_THREADS=1
 test-single: test
 
-test-ci: REDISRS_COMMAND="./${TMP_DIR}/redis-${REDIS_BRANCH}/src/redis-server"
+test-ci: REDISRS_COMMAND="./${TMP}/redis-${REDIS_BRANCH}/src/redis-server"
 test-ci: build-redis test
 
 bench:

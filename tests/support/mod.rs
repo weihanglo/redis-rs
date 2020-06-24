@@ -92,7 +92,8 @@ impl RedisServer {
         addr: redis::ConnectionAddr,
         spawner: F,
     ) -> RedisServer {
-        let mut cmd = process::Command::new("redis-server");
+        let cmd = env::var("REDISRS_COMMAND").unwrap_or("redis-server".into());
+        let mut cmd = process::Command::new(cmd);
         cmd.stdout(process::Stdio::null())
             .stderr(process::Stdio::null());
 

@@ -7,6 +7,7 @@ language: rust
 cache:
   directories:
     - /home/travis/.cargo
+    - "$TRAVIS_BUILD_DIR/redis_tmp" # build redis from source
 
 # But don't cache the cargo registry
 before_cache:
@@ -15,13 +16,13 @@ before_cache:
 matrix:
   include:
     - rust: stable
-      env: RUST_VERSION=stable COMMAND=test
+      env: RUST_VERSION=stable COMMAND=test-ci REDIS_BRANCH=6.0.5
 
     - rust: beta
-      env: RUST_VERSION=beta COMMAND=test
+      env: RUST_VERSION=beta COMMAND=test-ci REDIS_BRANCH=6.0.5
 
     - rust: nightly
-      env: RUST_VERSION=nightly COMMAND=test
+      env: RUST_VERSION=nightly COMMAND=test-ci REDIS_BRANCH=6.0.5
 
     - rust: stable
       env: COMMAND=lint

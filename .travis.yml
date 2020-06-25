@@ -13,6 +13,11 @@ cache:
 before_cache:
   - rm -rf /home/travis/.cargo/registry
 
+before_install: |
+  sudo add-apt-repository ppa:chris-lea/redis-server -y
+  sudo apt-get update
+  sudo apt-get install redis-server -y
+
 matrix:
   include:
     - rust: stable
@@ -28,16 +33,7 @@ matrix:
       env: COMMAND=lint
 
 script:
-  - make $COMMAND
-  - cargo check --benches --all-features
-  - |
-    ([ "$RUST_VERSION" = "nightly" ] || [ "$RUST_VERSION" = "beta" ]) && exit 0 # Don't cargo-fmt on nightly or beta
-    make style-check
-  - |
-    # Remove dev-dependencies so they do not enable features accidentally
-    # https://github.com/rust-lang/cargo/issues/4664
-    sed -i '/dev-dependencies/,/dev-dependencies/d' Cargo.toml
-    cargo build --all-features
+  - redis-server --version
 
 notifications:
   email: false
